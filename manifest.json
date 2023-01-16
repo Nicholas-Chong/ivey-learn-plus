@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Ivey Learn Plus",
+  "description": "Extended functions for Ivey Learn",
+  "version": "1.0",
+  "action": {
+
+  }
+}
