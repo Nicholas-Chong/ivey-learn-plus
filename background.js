@@ -1,19 +1,17 @@
 chrome.tabs.onUpdated.addListener(async function (
-    tabId,
-    changeInfo,
-    tab,
+  tabId,
+  changeInfo,
+  tab
 ) {
-    console.log(tab.url)
-}
-)
+  if (!tab.url.includes('ivey') || changeInfo.status !== 'complete') return
 
-const isLearnUrl = () => {
-    if (tab.url == "https://ivey.instructure.com/accounts/1/external_tools/532?launch_type=global_navigation") {
-        console.log("content script call")
-        chrome.scripting.executeScript(
-            {
-                files: ["scripts/content.js"]
-            }
-        )
-    }
-}
+  const frames = await chrome.webNavigation.getAllFrames({ tabId })
+
+  const roomBookingFrame = frames.find((f) => f.url === 'https://apps2.ivey.ca/lti/RoomBooking/provider/tool')
+  if (!roomBookingFrame) return
+
+  chrome.scripting.executeScript({
+    files: ['scripts/content.js'],
+    target: { tabId, frameIds: [roomBookingFrame.frameId] }
+  })
+})

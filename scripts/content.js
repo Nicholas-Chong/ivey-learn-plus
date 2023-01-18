@@ -1,14 +1,9 @@
-const displayCalendar = () => {
-    console.log("Displaying calendar...")
+document.getElementById('dpBookARoom').style.display = 'block'
 
-    const calendar = document.getElementById("tool_content").contentWindow.document.getElementById("dpBookARoom");
-
-    if (calendar) {
-        calendar.style.display = "block";
-    }
-    else {
-        console.log("could not find calendar.")
-    }
-}
-
-window.onload = displayCalendar;
+const selectRoomElement = document.getElementById('selectRoom')
+const observer = new MutationObserver((m) => {
+  if (m.some((m) => m.target.id === 'selectRoom')) {
+    document.getElementById('dpBookARoom').style.display = 'block'
+  }
+})
+observer.observe(selectRoomElement, { attributes: false, childList: true, subtree: false })
