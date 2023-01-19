@@ -27,6 +27,33 @@ const markWindowRooms = () => {
   });
 };
 
+// Function to fetch user bookings
+const fetchBookings = async() => {
+  const parser = new DOMParser();
+  const token = document.getElementById('token').value
+  const sessionValues = document.getElementById('hdnSessionValues').value
+  const userBookings = await fetch(`https://apps2.ivey.ca/lti/RoomBooking/MyBookings/MyBookings?token=${token}&sessionValues=${sessionValues}`)
+    .then(userBookings => userBookings.text())
+    .then( userBookings => {
+      const doc = parser.parseFromString(userBookings, "text/html")
+      return doc.getElementsByClassName('item-group')
+    }
+  )
+    
+  console.log(userBookings)
+
+  return userBookings
+}
+
+// Function to show user bookings
+const showBookings = () => {
+  const userBookings = fetchBookings();
+  const displayFrame = document.getElementById('dpBookARoom')
+
+}
+
+fetchBookings();
+//showBookings();
 showCalendar();
 markWindowRooms();
 
