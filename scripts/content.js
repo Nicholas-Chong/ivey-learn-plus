@@ -1,14 +1,10 @@
 // Function to show hidden calendar element
 const showCalendar = () => {
-  console.log("Displaying calendar...");
-
   document.getElementById("dpBookARoom").style.display = "block";
 };
 
 // Function to mark rooms as windowed
 const markWindowRooms = () => {
-  console.log("Marking window rooms...");
-
   const windowRooms = [
     "1231",
     "1237",
@@ -36,7 +32,6 @@ markWindowRooms();
 
 // Elements to observe
 const selectRoomElement = document.getElementById("selectRoom");
-
 const observer = new MutationObserver((m) => {
   if (m.some((m) => m.target.id === "selectRoom")) {
     showCalendar();
