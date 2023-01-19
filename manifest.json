@@ -3,14 +3,17 @@
   "name": "Ivey Learn Plus",
   "description": "Extended functions for Ivey Learn",
   "version": "1.0",
-  "action": {},
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
   "background": {
     "service_worker": "background.js"
   },
   "permissions": [
     "tabs",
     "scripting",
-    "webNavigation"
+    "webNavigation",
+    "storage"
   ],
   "host_permissions": ["https://learn.ivey.ca/*", "https://apps2.ivey.ca/"],
   "content_scripts": [
