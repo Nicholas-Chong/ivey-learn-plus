@@ -20,7 +20,7 @@ const markWindowRooms = () => {
     "3101",
     "3104",
   ];
-  const rooms = document.getElementsByClassName("headerRoomCell");
+  const rooms = Array.from(document.getElementsByClassName("headerRoomCell"));
   rooms.forEach((room) => {
     const roomNumber = room.textContent;
     if (windowRooms.includes(roomNumber)) room.textContent = `${roomNumber} 🪟`;
