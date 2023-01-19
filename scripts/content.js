@@ -28,7 +28,7 @@ const markWindowRooms = () => {
 };
 
 // Function to fetch user bookings
-const fetchBookings = async() => {
+const showBookings = async() => {
   const parser = new DOMParser();
   const token = document.getElementById('token').value
   const sessionValues = document.getElementById('hdnSessionValues').value
@@ -36,24 +36,14 @@ const fetchBookings = async() => {
     .then(userBookings => userBookings.text())
     .then( userBookings => {
       const doc = parser.parseFromString(userBookings, "text/html")
-      return doc.getElementsByClassName('item-group')
+      return doc.getElementsByClassName('col-md-12')[0].innerHTML
     }
   )
-    
-  console.log(userBookings)
-
-  return userBookings
+  
+  document.getElementById('dpBookARoom').innerHTML += userBookings
 }
 
-// Function to show user bookings
-const showBookings = () => {
-  const userBookings = fetchBookings();
-  const displayFrame = document.getElementById('dpBookARoom')
-
-}
-
-fetchBookings();
-//showBookings();
+showBookings();
 showCalendar();
 markWindowRooms();
 
