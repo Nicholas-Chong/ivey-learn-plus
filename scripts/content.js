@@ -27,15 +27,22 @@ const markWindowRooms = () => {
   });
 };
 
-showCalendar();
-markWindowRooms();
+// Call all enabled functions
+const callEnabledFunctions = () => {
+  // Fetches settings from sync server and calls appropriate functions
+  chrome.storage.sync.get(null, function (result) {
+    if(result["calendarBox"]) showCalendar();
+    if(result["windowBox"]) markWindowRooms();
+  });  
+};
+
+callEnabledFunctions();
 
 // Elements to observe
 const selectRoomElement = document.getElementById("selectRoom");
 const observer = new MutationObserver((m) => {
   if (m.some((m) => m.target.id === "selectRoom")) {
-    showCalendar();
-    markWindowRooms();
+    callEnabledFunctions();
   }
 });
 observer.observe(selectRoomElement, { attributes: false, childList: true, subtree: false });

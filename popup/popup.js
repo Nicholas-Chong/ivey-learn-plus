@@ -1,30 +1,22 @@
 // Get manifest data
 const manifestData = chrome.runtime.getManifest();
 
+// Retrieves and sets current verion number from manifest
 const setVersion = () => {
   const version = manifestData.version;
   document.getElementById("version").innerHTML = "Version: " + version;
 };
 
-const getStorageValuePromise = (key) => {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get(key, resolve);
-  })
-};
-
 // Retrieves and loads extension settings
-const loadSettings = async() => {
+const loadSettings = () => {
+  // List of all settings
   let settings = Array.from(document.getElementsByTagName("input"));
   settings.forEach((setting) => {
-    getStorageValuePromise(setting.name).then((result) => {
-      let settingBox = document.getElementById(setting.name).checked = result.value;
-      console.log(setting.name + " result: " + result.value);
-    });
-  /*
-  chrome.storage.sync.get(null, function(items) {
-    console.log(items);
-  });
-  */
+    let key = setting.name
+    // Fetches status of specific setting, callback sets current settings
+    chrome.storage.sync.get(key, function (result) {
+      document.getElementById(key).checked = result[key];
+    });  
   });
 };
 
@@ -45,12 +37,8 @@ const saveSettings = () => {
     object[key] = true;
   });
 
-  let json = JSON.stringify(object)
-  console.log(json)
-
   // Save to sync storage
   chrome.storage.sync.set(object, () => {
-    console.log("Setting saved!")
   })
 };
 
@@ -59,8 +47,8 @@ window.onload = () => {
   loadSettings();
 };
 
+// Save button
 const saveButton = document.getElementById("saveButton");
 saveButton.addEventListener("click", async () => {
   saveSettings();
-  console.log("click")
 });
