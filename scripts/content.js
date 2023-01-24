@@ -44,9 +44,9 @@ const showBookings = async() => {
       const doc = parser.parseFromString(userBookings, "text/html")
       return doc.getElementsByClassName('col-md-12')[0].innerHTML
     }
-  )
-  
-  document.getElementById('dpBookARoom').innerHTML += userBookings
+);
+
+  document.getElementById('dpBookARoom').innerHTML += userBookings;
 }
 
 // Function to delete user bookings
