@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 // Function to show hidden calendar element
 const showCalendar = () => {
@@ -45,24 +46,16 @@ const showBookings = async () => {
     .then((userBookings) => userBookings.text())
     .then((userBookings) => {
       const doc = parser.parseFromString(userBookings, "text/html");
-      const elem = doc.getElementsByClassName("grid-row row-spacer")[0].innerHTML;
-
-      const styles =
-        ".col-md-12  { max-width:75%; display: flex; overflow: scroll; max-height: 300px; }";
-      const css = document.createElement("style");
-      //       css.type = 'text/css';
-
-      if (css.styleSheet) css.styleSheet.cssText = styles;
-      else css.appendChild(document.createTextNode(styles));
-
-      //       /* Append style to the head element */
-      document.getElementsByTagName("HEAD")[0].appendChild(css);
-
-      console.log(css);
-      return elem;
+      return doc.getElementsByClassName("col-md-12")[0].innerHTML;
     });
 
   document.getElementById("dpBookARoom").innerHTML += userBookings;
+
+  // Attach event listener to delete button
+  const deleteContainers = document.getElementsByClassName("inline-block");
+  for (let i = 0; i < deleteContainers.length; i++) {
+    deleteContainers[i].addEventListener("click", deleteBooking, true);
+  }
 };
 
 // Function to delete user bookings
@@ -112,13 +105,7 @@ const deleteBooking = (event) => {
 const callEnabledFunctions = () => {
   // Fetches settings from sync server and calls appropriate functions
   chrome.storage.sync.get(null, function (result) {
-    if (result.bookingsBox)
-      showBookings().then(() => {
-        const deleteContainers = document.getElementsByClassName("inline-block");
-        for (let i = 0; i < deleteContainers.length; i++) {
-          deleteContainers[i].addEventListener("click", deleteBooking, true);
-        }
-      });
+    if (result.bookingsBox) showBookings();
     if (result.calendarBox) showCalendar();
     if (result.windowBox) markWindowRooms();
   });
@@ -152,3 +139,11 @@ const observer = new MutationObserver((m) => {
   }
 });
 observer.observe(selectRoomElement, { attributes: false, childList: true, subtree: false });
+
+// Event listener for delete button
+setTimeout(() => {
+  const deleteContainers = document.getElementsByClassName("inline-block");
+  for (let i = 0; i < deleteContainers.length; i++) {
+    deleteContainers[i].addEventListener("click", deleteBooking, true);
+  }
+}, 1000); // delay to load DOM elements from showBookings function
