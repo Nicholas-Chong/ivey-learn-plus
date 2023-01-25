@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 // Function to show hidden calendar element
 const showCalendar = () => {
-  document.getElementById("dpBookARoom").style.display = "flex";
+  const calendar = document.getElementById("dpBookARoom");
+  calendar.style.display = "flex";
+  calendar.style.maxWidth = "1071px";
 };
 
 // Function to mark rooms as windowed
@@ -48,7 +50,7 @@ const showBookings = async () => {
       const elem = doc.getElementsByClassName("grid-row row-spacer")[0];
 
       const styles = `
-        .col-md-12  { max-width:75%; display: block; overflow: scroll; max-height: 225px; margin-left: 10px; }
+        .col-md-12  { display: block; overflow: scroll; max-height: 225px; margin-left: 10px; }
         .grid-row.row-spacer { flex: 1 1 auto; }
       `;
       const css = document.createElement("style");
