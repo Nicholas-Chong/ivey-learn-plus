@@ -46,7 +46,7 @@ const showBookings = async() => {
     }
 );
 
-  document.getElementById('selectRoom').innerHTML += userBookings;
+  document.getElementById('dpBookARoom').innerHTML += userBookings;
 }
 
 // Function to delete user bookings
