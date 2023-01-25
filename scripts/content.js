@@ -45,7 +45,21 @@ const showBookings = async () => {
     .then((userBookings) => userBookings.text())
     .then((userBookings) => {
       const doc = parser.parseFromString(userBookings, "text/html");
-      return doc.getElementsByClassName("col-md-12")[0].innerHTML;
+      const elem = doc.getElementsByClassName("grid-row row-spacer")[0].innerHTML;
+
+      const styles =
+        ".col-md-12  { max-width:75%; display: flex; overflow: scroll; max-height: 300px; }";
+      const css = document.createElement("style");
+      //       css.type = 'text/css';
+
+      if (css.styleSheet) css.styleSheet.cssText = styles;
+      else css.appendChild(document.createTextNode(styles));
+
+      //       /* Append style to the head element */
+      document.getElementsByTagName("HEAD")[0].appendChild(css);
+
+      console.log(css);
+      return elem;
     });
 
   document.getElementById("dpBookARoom").innerHTML += userBookings;
