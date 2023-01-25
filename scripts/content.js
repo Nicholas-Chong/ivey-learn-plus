@@ -112,7 +112,13 @@ const deleteBooking = (event) => {
 const callEnabledFunctions = () => {
   // Fetches settings from sync server and calls appropriate functions
   chrome.storage.sync.get(null, function (result) {
-    if (result.bookingsBox) showBookings();
+    if (result.bookingsBox)
+      showBookings().then(() => {
+        const deleteContainers = document.getElementsByClassName("inline-block");
+        for (let i = 0; i < deleteContainers.length; i++) {
+          deleteContainers[i].addEventListener("click", deleteBooking, true);
+        }
+      });
     if (result.calendarBox) showCalendar();
     if (result.windowBox) markWindowRooms();
   });
@@ -146,11 +152,3 @@ const observer = new MutationObserver((m) => {
   }
 });
 observer.observe(selectRoomElement, { attributes: false, childList: true, subtree: false });
-
-// Event listener for delete button
-setTimeout(() => {
-  const deleteContainers = document.getElementsByClassName("inline-block");
-  for (let i = 0; i < deleteContainers.length; i++) {
-    deleteContainers[i].addEventListener("click", deleteBooking, true);
-  }
-}, 1000); // delay to load DOM elements from showBookings function
