@@ -61,10 +61,18 @@ const showBookings = async () => {
       document.getElementsByTagName("HEAD")[0].appendChild(css);
 
       console.log(css);
+      elem.id = "userBookings";
       return elem;
     });
 
   document.getElementById("dpBookARoom").appendChild(userBookings);
+
+  // Attach event listener to delete button
+  const deleteContainers = document.getElementsByClassName("inline-block");
+  console.log(deleteContainers);
+  for (let i = 0; i < deleteContainers.length; i++) {
+    deleteContainers[i].addEventListener("click", deleteBooking, true);
+  }
 };
 
 // Function to delete user bookings
@@ -100,52 +108,43 @@ const deleteBooking = (event) => {
         console.log(`Unable to delete booking, error status: ${response.status}`);
       } else {
         console.log("Successfully deleted your booking!");
+        document.getElementById("userBookings").remove();
+        showBookings();
       }
       return response;
     })
     .catch((error) => {
       console.error(error);
     });
+};
 
-  window.location.reload();
+const addRefreshBookingsHandler = () => {
+  const bookableRooms = Array.from(document.getElementsByClassName("bookableRoom"));
+  bookableRooms.forEach((room) => {
+    room.addEventListener("click", () => {
+      setTimeout(() => {
+        document.getElementById("userBookings").remove();
+        console.log("refreshing bookings");
+        showBookings();
+      }, 500);
+    });
+  });
 };
 
 // Call all enabled functions
 const callEnabledFunctions = () => {
   // Fetches settings from sync server and calls appropriate functions
   chrome.storage.sync.get(null, function (result) {
-    if (result.bookingsBox)
-      showBookings().then(() => {
-        const deleteContainers = document.getElementsByClassName("inline-block");
-        console.log(deleteContainers);
-        for (let i = 0; i < deleteContainers.length; i++) {
-          deleteContainers[i].addEventListener("click", deleteBooking, true);
-        }
-      });
+    if (result.bookingsBox) {
+      showBookings();
+      addRefreshBookingsHandler();
+    }
     if (result.calendarBox) showCalendar();
     if (result.windowBox) markWindowRooms();
   });
 };
 
 callEnabledFunctions();
-
-const f = () => {
-  const elem = document.getElementsByClassName("grid-row row-spacer")[0].innerHTML;
-
-  const styles =
-    ".col-md-12  { max-width:75%; display: flex; overflow: scroll; max-height: 300px; }";
-  const css = document.createElement("style");
-  //       css.type = 'text/css';
-
-  if (css.styleSheet) css.styleSheet.cssText = styles;
-  else css.appendChild(document.createTextNode(styles));
-
-  //       /* Append style to the head element */
-  document.getElementsByTagName("HEAD")[0].appendChild(css);
-
-  console.log(css);
-  return elem;
-};
 
 // Elements to observe
 const selectRoomElement = document.getElementById("selectRoom");
