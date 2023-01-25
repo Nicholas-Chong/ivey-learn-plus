@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 // Function to show hidden calendar element
 const showCalendar = () => {
-  document.getElementById("dpBookARoom").style.display = "block";
+  document.getElementById("dpBookARoom").style.display = "flex";
 };
 
 // Function to mark rooms as windowed
@@ -105,6 +105,24 @@ const callEnabledFunctions = () => {
 };
 
 callEnabledFunctions();
+
+const f = () => {
+  const elem = document.getElementsByClassName("grid-row row-spacer")[0].innerHTML;
+
+  const styles =
+    ".col-md-12  { max-width:75%; display: flex; overflow: scroll; max-height: 300px; }";
+  const css = document.createElement("style");
+  //       css.type = 'text/css';
+
+  if (css.styleSheet) css.styleSheet.cssText = styles;
+  else css.appendChild(document.createTextNode(styles));
+
+  //       /* Append style to the head element */
+  document.getElementsByTagName("HEAD")[0].appendChild(css);
+
+  console.log(css);
+  return elem;
+};
 
 // Elements to observe
 const selectRoomElement = document.getElementById("selectRoom");
