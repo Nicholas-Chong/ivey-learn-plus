@@ -45,10 +45,12 @@ const showBookings = async () => {
     .then((userBookings) => userBookings.text())
     .then((userBookings) => {
       const doc = parser.parseFromString(userBookings, "text/html");
-      const elem = doc.getElementsByClassName("grid-row row-spacer")[0].innerHTML;
+      const elem = doc.getElementsByClassName("grid-row row-spacer")[0];
 
-      const styles =
-        ".col-md-12  { max-width:75%; display: flex; overflow: scroll; max-height: 300px; }";
+      const styles = `
+        .col-md-12  { max-width:75%; display: flex; overflow: scroll; max-height: 225px; flex: 1 1 auto; }
+        .grid-row.row-spacer { flex: 1 1 auto; }
+      `;
       const css = document.createElement("style");
       //       css.type = 'text/css';
 
@@ -62,7 +64,7 @@ const showBookings = async () => {
       return elem;
     });
 
-  document.getElementById("dpBookARoom").innerHTML += userBookings;
+  document.getElementById("dpBookARoom").appendChild(userBookings);
 };
 
 // Function to delete user bookings
@@ -115,6 +117,7 @@ const callEnabledFunctions = () => {
     if (result.bookingsBox)
       showBookings().then(() => {
         const deleteContainers = document.getElementsByClassName("inline-block");
+        console.log(deleteContainers);
         for (let i = 0; i < deleteContainers.length; i++) {
           deleteContainers[i].addEventListener("click", deleteBooking, true);
         }
