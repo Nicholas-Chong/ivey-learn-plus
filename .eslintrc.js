@@ -14,6 +14,6 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error"],
     "no-console": ["error", { allow: ["warn", "error"] }],
-    "linebreak-style": ["error", process.platform === "darwin" ? "unix" : "windows"],
+    "linebreak-style": 0,
   },
 };
