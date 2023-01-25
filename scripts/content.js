@@ -48,7 +48,7 @@ const showBookings = async () => {
       const elem = doc.getElementsByClassName("grid-row row-spacer")[0];
 
       const styles = `
-        .col-md-12  { max-width:75%; display: flex; overflow: scroll; max-height: 225px; flex: 1 1 auto; }
+        .col-md-12  { max-width:75%; display: block; overflow: scroll; max-height: 225px; margin-left: 10px; }
         .grid-row.row-spacer { flex: 1 1 auto; }
       `;
       const css = document.createElement("style");
